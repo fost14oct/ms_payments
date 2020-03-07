@@ -39,7 +39,12 @@ public class CustomerStripeImpl implements CustomerInterface {
 
     @PostConstruct
     public void init() {
-
+        log.info("Starting vendor with id {}" , vendorId );
+        //vendorRepository.save(new Vendor("Stripe"));
+        vendor = vendorRepository.findById(vendorId);
+        if (!vendor.isPresent()) {
+            throw new RuntimeException("Unable to start application vendor not present");
+        }
     }
 
 
