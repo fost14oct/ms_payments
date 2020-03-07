@@ -14,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @Slf4j
 @SpringBootApplication(scanBasePackages = {"com.homehub"})
+@EnableSwagger2
 public class Start implements CommandLineRunner {
     @Autowired
     private RestTemplate restTemplate;

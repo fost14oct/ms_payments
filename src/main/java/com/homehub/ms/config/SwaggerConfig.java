@@ -16,7 +16,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnableSwagger2
 class SwaggerConfig {
 
-    @Value("${swagger.allowed: true} ")
+    @Value("${swagger.allowed} ")
     private Boolean swaggerAllowed;
 
 
