@@ -31,6 +31,6 @@ public class CustomerController {
     @PostMapping (produces = MediaType.APPLICATION_JSON_VALUE,consumes ={MediaType.APPLICATION_JSON_VALUE} )
     public ResponseEntity<Object> createUser(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(customerservice.createClientWithExternalID(createCustomerRequest.getExternalId()));
+                .body(customerservice.createClientWithExternalID(createCustomerRequest.getExternalID()));
     }
 }
