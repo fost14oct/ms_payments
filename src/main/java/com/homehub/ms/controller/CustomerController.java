@@ -1,6 +1,7 @@
 package com.homehub.ms.controller;
 
 import com.homehub.ms.dto.CreateCustomerRequest;
+import com.homehub.ms.dto.CreateCustomerResponseDTO;
 import com.homehub.ms.service.CustomerInterface;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -25,12 +26,12 @@ public class CustomerController {
 
     @ApiOperation(value="Creates customer o retrieves if it is already mapped in pg db")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OPERATION SUCCESSFUL"),
+            @ApiResponse(code = 201, message = "CREATED"),
             @ApiResponse(code = 400, message = "BAD REQUEST"),
     })
     @PostMapping (produces = MediaType.APPLICATION_JSON_VALUE,consumes ={MediaType.APPLICATION_JSON_VALUE} )
-    public ResponseEntity<Object> createUser(@RequestBody CreateCustomerRequest createCustomerRequest) {
-        return ResponseEntity.status(HttpStatus.OK)
+    public ResponseEntity<CreateCustomerResponseDTO> createUser(@RequestBody CreateCustomerRequest createCustomerRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(customerservice.createClientWithExternalID(createCustomerRequest.getExternalID()));
     }
 }

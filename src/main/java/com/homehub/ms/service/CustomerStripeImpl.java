@@ -1,6 +1,7 @@
 package com.homehub.ms.service;
 
 import ch.qos.logback.core.pattern.parser.OptionTokenizer;
+import com.homehub.ms.dto.CreateCustomerResponseDTO;
 import com.homehub.ms.dto.CustomerStripeDTO;
 import com.homehub.ms.entities.Customer;
 import com.homehub.ms.entities.CustomerVendor;
@@ -29,43 +30,29 @@ public class CustomerStripeImpl implements CustomerInterface {
     CustomerRepository customerRepository;
 
     @Autowired
-    CustomerRequestsInterface customerRequests;
-
-    @Value("${stripe.vendor.id}")
-    private long vendorId;
-
-    private Optional<Vendor> vendor;
+    RequestsInterface customerRequests;
 
 
-    @PostConstruct
-    public void init() {
-        log.info("Starting vendor with id {}" , vendorId );
-        //vendorRepository.save(new Vendor("Stripe"));
-        vendor = vendorRepository.findById(vendorId);
-        if (!vendor.isPresent()) {
-            throw new RuntimeException("Unable to start application vendor not present");
-        }
-    }
+    @Autowired
+    Vendor vendor;
+
 
 
     @Override
-    public Object createClientWithExternalID(String externalId) {
+    public CreateCustomerResponseDTO createClientWithExternalID(String externalId) {
         log.info(externalId);
         CustomerStripeDTO customerStripeDTO = null;
-        CustomerVendor existingCustomer = customerVendorRepository.findCustomerVendorByCustomerExternalId(externalId);
-        log.info("Exist customer with externalID {}", existingCustomer);
-        if (existingCustomer == null) {
+        CustomerVendor customer = customerVendorRepository.findCustomerVendorByCustomerExternalId(externalId);
+        log.info("Exist customer with externalID {}", customer);
+        if (customer == null) {
             Customer newCustomer = customerRepository.save(new Customer(externalId));
             customerStripeDTO = (CustomerStripeDTO) customerRequests.createCustomer();
             if (customerStripeDTO == null && customerStripeDTO.getId() == null) {
                 throw new RuntimeException("Unable to create new user an exception happened");
             }
-            customerVendorRepository.save(new CustomerVendor(newCustomer,vendor.get(), customerStripeDTO.getId()));
-        }else{
-            log.info("Trying to retrieve existing customer {}",existingCustomer);
-            customerStripeDTO =(CustomerStripeDTO) customerRequests.getCustomerById(existingCustomer.getCustomerVendorId());
+            customer =  customerVendorRepository.save(new CustomerVendor(newCustomer,vendor, customerStripeDTO.getId()));
         }
-        log.info("Returning stripe customer {}",customerStripeDTO);
-        return customerStripeDTO;
+        log.info("Returning stripe customer {}",customer);
+        return   new CreateCustomerResponseDTO(customer.getId());
     }
 }

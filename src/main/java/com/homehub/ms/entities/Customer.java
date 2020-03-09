@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 import com.homehub.ms.entities.CustomerVendor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "TA_CUSTOMER")
@@ -20,7 +21,7 @@ public class Customer {
     private long id;
 
     private String externalId;
-
+    @ToString.Exclude
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
     private CustomerVendor customerVendor;

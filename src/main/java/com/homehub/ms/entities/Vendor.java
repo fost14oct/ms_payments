@@ -1,9 +1,6 @@
 package com.homehub.ms.entities;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,7 +21,7 @@ public class Vendor {
     private long id;
 
     private String name;
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     @Setter(AccessLevel.NONE)

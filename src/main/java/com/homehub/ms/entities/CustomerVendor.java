@@ -1,15 +1,16 @@
 package com.homehub.ms.entities;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "TA_CUSTOMER_VENDOR")
 @Data
-/*@NamedQueries({
-        @NamedQuery(name = "CustomerVendor.findByCustomerExternalId",query = "Select cv From CustomerVendor cv, Customer cm where cm.externalId = :externalId "),
-})*/
 public class CustomerVendor {
 
     public CustomerVendor(){}
@@ -32,6 +33,12 @@ public class CustomerVendor {
     @ManyToOne
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "customerVendor", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    private List<PaymentMethod> paymentMethod;
 
     private String customerVendorId;
 }
