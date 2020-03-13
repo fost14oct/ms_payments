@@ -15,7 +15,7 @@ import org.springframework.util.MultiValueMap;
 import java.util.Optional;
 
 @Service
-public class CreatePaymentMethodImpl implements CreatePaymentMethodInterface {
+public class CreatePaymentMethodService implements CreatePaymentMethodInterface {
 
     @Autowired
     RequestsInterface stripeRequests;

@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class CustomerStripeImpl implements CustomerInterface {
+public class CustomerStripeService implements CustomerInterface {
     @Autowired
     CustomerVendorRepository customerVendorRepository;
 
